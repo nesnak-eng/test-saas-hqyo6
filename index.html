@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculatrice Simple</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button id="darkModeToggle" class="dark-mode-toggle">Dark Mode</button>
+    <div class="calculator">
+        <input type="text" class="display" id="display" disabled>
+        <div class="buttons">
+            <button class="button clear" onclick="clearDisplay()">C</button>
+            <button class="button operator" onclick="appendValue('/')">/</button>
+            <button class="button operator" onclick="appendValue('*')">*</button>
+            <button class="button operator" onclick="appendValue('-')">-</button>
+
+            <button class="button" onclick="appendValue('7')">7</button>
+            <button class="button" onclick="appendValue('8')">8</button>
+            <button class="button" onclick="appendValue('9')">9</button>
+            <button class="button operator" onclick="appendValue('+')">+</button>
+
+            <button class="button" onclick="appendValue('4')">4</button>
+            <button class="button" onclick="appendValue('5')">5</button>
+            <button class="button" onclick="appendValue('6')">6</button>
+            <button class="button equal" onclick="calculateResult()">=</button>
+
+            <button class="button" onclick="appendValue('1')">1</button>
+            <button class="button" onclick="appendValue('2')">2</button>
+            <button class="button" onclick="appendValue('3')">3</button>
+            <button class="button" onclick="appendValue('0')">0</button>
+
+            <button class="button" onclick="appendValue('.')">.</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        let currentInput = '';
+
+        function appendValue(value) {
+            currentInput += value;
+            display.value = currentInput;
+        }
+
+        function clearDisplay() {
+            currentInput = '';
+            display.value = '';
+        }
+
+        function calculateResult() {
+            try {
+                // Utilisation de eval() pour évaluer l'expression. 
+                // Pour une application réelle, une approche plus sûre (parsing) serait préférable.
+                currentInput = eval(currentInput).toString();
+                display.value = currentInput;
+            } catch (error) {
+                display.value = 'Erreur';
+                currentInput = '';
+            }
+        }
+
+        // Dark Mode Logic
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        // Check for saved dark mode preference
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+
+        if (isDarkMode) {
+            body.classList.add('dark-mode');
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            // Save preference to localStorage
+            localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+        });
+    </script>
+</body>
+</html>
